@@ -1,35 +1,51 @@
-import { useEffect, useState } from "react";
+import { Routes, Route, Navigate, NavLink } from "react-router-dom";
+import { useAuth } from "./lib/auth-context";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import NewSale from "./pages/NewSale";
 
-const API = import.meta.env.VITE_API_URL;
+function Shell({ children }: { children: React.ReactNode }) {
+  const { user, signOut } = useAuth();
+  return (
+    <div className="app">
+      <header className="topbar">
+        <span className="wordmark small">Salon</span>
+        <button className="ghost small" onClick={signOut}>
+          Sign out
+        </button>
+      </header>
+
+      <main className="wrap">{children}</main>
+
+      <nav className="tabbar">
+        <NavLink to="/" end>Today</NavLink>
+        <NavLink to="/sale">New sale</NavLink>
+        {user?.role === "owner" && <NavLink to="/reports">Reports</NavLink>}
+      </nav>
+    </div>
+  );
+}
 
 export default function App() {
-  const [status, setStatus] = useState<string>("checking…");
-  const [detail, setDetail] = useState<string>("");
+  const { user, loading } = useAuth();
 
-  useEffect(() => {
-    fetch(`${API}/health`)
-      .then((r) => r.json())
-      .then((d) => {
-        setStatus(d.status === "ok" ? "connected" : "unreachable");
-        setDetail(`${d.tables} tables`);
-      })
-      .catch(() => {
-        setStatus("unreachable");
-        setDetail("could not reach the server");
-      });
-  }, []);
+  if (loading) {
+    return (
+      <div className="auth-screen">
+        <p className="muted">Loading…</p>
+      </div>
+    );
+  }
+
+  if (!user) return <Login />;
 
   return (
-    <div className="wrap">
-      <h1 style={{ fontSize: 24, marginBottom: 4 }}>Salon</h1>
-      <p className="muted" style={{ marginTop: 0 }}>
-        Business management for the shop
-      </p>
-
-      <div className="card">
-        <p style={{ margin: 0, fontWeight: 600 }}>Server: {status}</p>
-        <p className="muted" style={{ margin: "4px 0 0" }}>{detail}</p>
-      </div>
-    </div>
+    <Shell>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/sale" element={<NewSale />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Shell>
   );
 }
