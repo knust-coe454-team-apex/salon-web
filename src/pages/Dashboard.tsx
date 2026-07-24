@@ -103,7 +103,7 @@ export default function Dashboard() {
             <li key={s.id}>
               <div>
                 <strong>
-                  {"total" in s ? cedi(s.total) : `${s.itemCount} item${s.itemCount === 1 ? "" : "s"}`}
+                  {"total" in s ? cedi(s.total) : s.paymentMethod === "cash" ? "Cash sale" : "MoMo sale"}
                 </strong>
                 <span className="muted" style={{ fontSize: 14, display: "block" }}>
                   {s.itemCount} item{s.itemCount === 1 ? "" : "s"} · {s.paymentMethod === "cash" ? "Cash" : "MoMo"}
