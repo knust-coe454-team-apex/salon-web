@@ -1,0 +1,95 @@
+/* Salon — design tokens.
+   Palette drawn from the shop itself: lacquer pink, buffed shell, deep aubergine ink.
+   System fonts only: zero download cost on a small data bundle. */
+
+:root {
+  --ink: #2a1b2e;
+  --ink-soft: #6b5c6e;
+  --shell: #faf6f7;
+  --card: #ffffff;
+  --line: #ece2e6;
+  --lacquer: #c2185b;
+  --lacquer-dark: #9c134a;
+  --jade: #0e8074;
+  --amber: #b26a00;
+
+  --r: 14px;
+  --pad: 16px;
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--shell);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+}
+
+/* Tap targets stay generous — this gets used mid-service, one-handed. */
+button, input, select {
+  font-family: inherit;
+  font-size: 16px; /* 16px stops iOS zooming on focus */
+}
+
+button {
+  min-height: 48px;
+  border: none;
+  border-radius: var(--r);
+  background: var(--lacquer);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 20px;
+}
+
+button:active { background: var(--lacquer-dark); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+
+button.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+input, select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--card);
+  color: var(--ink);
+}
+
+input:focus, select:focus, button:focus-visible {
+  outline: 2px solid var(--lacquer);
+  outline-offset: 2px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: var(--pad);
+}
+
+.muted { color: var(--ink-soft); }
+
+.wrap {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: var(--pad);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
