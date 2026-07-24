@@ -93,3 +93,149 @@ input:focus, select:focus, button:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* ---------- app shell ---------- */
+
+.app { min-height: 100%; padding-bottom: 76px; }
+
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--card);
+}
+
+.wordmark {
+  font-size: 30px; font-weight: 700; letter-spacing: -0.02em;
+  margin: 0 0 4px; color: var(--lacquer);
+}
+.wordmark.small { font-size: 20px; margin: 0; }
+
+button.small { min-height: 38px; padding: 0 14px; font-size: 14px; }
+
+.tabbar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; background: var(--card);
+  border-top: 1px solid var(--line);
+}
+.tabbar a {
+  flex: 1; text-align: center; padding: 16px 8px;
+  text-decoration: none; color: var(--ink-soft); font-weight: 600; font-size: 14px;
+}
+.tabbar a.active { color: var(--lacquer); }
+
+/* ---------- auth ---------- */
+
+.auth-screen {
+  min-height: 100%; display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.auth-box { width: 100%; max-width: 380px; }
+
+.field { display: block; margin-bottom: 14px; }
+.field span {
+  display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600;
+}
+
+.error {
+  color: var(--lacquer-dark); background: #fdf0f4;
+  border: 1px solid #f5d0dd; border-radius: var(--r);
+  padding: 10px 12px; font-size: 14px; margin: 0 0 12px;
+}
+
+/* ---------- dashboard ---------- */
+
+.eyebrow {
+  text-transform: uppercase; letter-spacing: .09em;
+  font-size: 12px; font-weight: 700; color: var(--ink-soft);
+  margin: 8px 0 4px;
+}
+
+/* The takings figure is the whole point of the product: it replaces
+   counting cash at closing time. It gets the space to say so. */
+.takings { display: flex; align-items: baseline; gap: 4px; margin-bottom: 16px; }
+.takings-sign { font-size: 20px; font-weight: 600; color: var(--ink-soft); }
+.takings-value {
+  font-size: 46px; font-weight: 700; letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+
+.split {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 14px; margin-bottom: 16px;
+}
+.split-label {
+  display: block; font-size: 12px; color: var(--ink-soft); margin-bottom: 2px;
+}
+.split strong { font-variant-numeric: tabular-nums; }
+
+.alert {
+  background: #fff6e6; border: 1px solid #f0dcb8; color: var(--amber);
+  border-radius: var(--r); padding: 12px 14px; font-weight: 600;
+  font-size: 15px; margin-bottom: 16px;
+}
+
+.section-head { font-size: 15px; margin: 24px 0 10px; }
+
+.list { list-style: none; margin: 0; padding: 0; }
+.list li {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 12px 14px; margin-bottom: 8px;
+}
+
+/* ---------- new sale ---------- */
+
+.segmented {
+  display: flex; gap: 6px; background: #f1e8ec;
+  border-radius: var(--r); padding: 4px; margin-bottom: 14px;
+}
+.seg {
+  flex: 1; min-height: 42px; background: transparent;
+  color: var(--ink-soft); font-weight: 600; border-radius: 10px;
+}
+.seg.on { background: var(--card); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+
+.picker { display: grid; gap: 8px; }
+
+.pick {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; min-height: 60px; padding: 10px 14px;
+  background: var(--card); border: 1px solid var(--line);
+  color: var(--ink); text-align: left; font-weight: 500;
+}
+.pick:active { background: #fdf4f7; }
+.pick-name { display: flex; flex-direction: column; gap: 2px; font-weight: 600; }
+.pick-price { font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+
+.stock { font-size: 12px; font-weight: 500; color: var(--ink-soft); }
+.stock.low { color: var(--amber); font-weight: 600; }
+
+/* The bill assembles in place — this is the moment the app replaces
+   remembering what was sold. */
+.ticket {
+  margin-top: 20px; background: var(--card);
+  border: 1px solid var(--line); border-radius: var(--r); padding: var(--pad);
+}
+.ticket-line {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px dashed var(--line);
+}
+.stepper { display: flex; align-items: center; gap: 10px; }
+.stepper span { min-width: 20px; text-align: center; font-weight: 700; }
+button.step { min-height: 38px; min-width: 38px; padding: 0; font-size: 20px; line-height: 1; }
+
+.ticket-total {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0 4px; font-size: 18px;
+}
+.ticket-total strong { font-variant-numeric: tabular-nums; font-size: 22px; }
+
+.pay-label {
+  font-size: 13px; font-weight: 600; color: var(--ink-soft);
+  margin: 12px 0 6px;
+}
+
+.done { text-align: center; padding-top: 40px; }
+.done .takings { justify-content: center; }
