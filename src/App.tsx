@@ -3,6 +3,8 @@ import { useAuth } from "./lib/auth-context";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import NewSale from "./pages/NewSale";
+import Catalogue from "./pages/Catalogue";
+import Reports from "./pages/Reports";
 
 function Shell({ children }: { children: React.ReactNode }) {
   const { user, signOut } = useAuth();
@@ -20,6 +22,7 @@ function Shell({ children }: { children: React.ReactNode }) {
       <nav className="tabbar">
         <NavLink to="/" end>Today</NavLink>
         <NavLink to="/sale">New sale</NavLink>
+        <NavLink to="/shop">Shop</NavLink>
         {user?.role === "owner" && <NavLink to="/reports">Reports</NavLink>}
       </nav>
     </div>
@@ -44,6 +47,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/sale" element={<NewSale />} />
+        <Route path="/shop" element={<Catalogue />} />
+        {user.role === "owner" && <Route path="/reports" element={<Reports />} />}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Shell>

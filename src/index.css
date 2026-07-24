@@ -239,3 +239,26 @@ button.step { min-height: 38px; min-width: 38px; padding: 0; font-size: 20px; li
 
 .done { text-align: center; padding-top: 40px; }
 .done .takings { justify-content: center; }
+
+/* ---------- shop menu ---------- */
+
+.row-actions {
+  display: flex; gap: 8px; margin-top: 4px;
+}
+.row-actions button { flex: 1; }
+
+.two-up {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+
+/* ---------- reports ---------- */
+
+.netbox {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 16px; margin-bottom: 12px;
+}
+.netbox .split-label { margin-bottom: 6px; }
+
+.split { margin-bottom: 10px; }
+
+.tabbar a { font-size: 13px; padding: 16px 4px; }
