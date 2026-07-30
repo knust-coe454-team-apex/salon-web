@@ -262,3 +262,16 @@ button.step { min-height: 38px; min-width: 38px; padding: 0; font-size: 20px; li
 .split { margin-bottom: 10px; }
 
 .tabbar a { font-size: 13px; padding: 16px 4px; }
+
+.linklike {
+  background: none;
+  border: none;
+  color: var(--lacquer);
+  font-weight: 600;
+  font-size: 15px;
+  min-height: auto;
+  padding: 4px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.linklike:active { color: var(--lacquer-dark); }

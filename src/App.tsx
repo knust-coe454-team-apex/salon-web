@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { Routes, Route, Navigate, NavLink } from "react-router-dom";
 import { useAuth } from "./lib/auth-context";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import NewSale from "./pages/NewSale";
 import Catalogue from "./pages/Catalogue";
 import Reports from "./pages/Reports";
+import Staff from "./pages/Staff";
 
 function Shell({ children }: { children: React.ReactNode }) {
   const { user, signOut } = useAuth();
@@ -24,6 +27,7 @@ function Shell({ children }: { children: React.ReactNode }) {
         <NavLink to="/sale">New sale</NavLink>
         <NavLink to="/shop">Shop</NavLink>
         {user?.role === "owner" && <NavLink to="/reports">Reports</NavLink>}
+        {user?.role === "owner" && <NavLink to="/staff">Staff</NavLink>}
       </nav>
     </div>
   );
@@ -31,6 +35,7 @@ function Shell({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const { user, loading } = useAuth();
+  const [showRegister, setShowRegister] = useState(false);
 
   if (loading) {
     return (
@@ -40,7 +45,13 @@ export default function App() {
     );
   }
 
-  if (!user) return <Login />;
+  if (!user) {
+    return showRegister ? (
+      <Register onBack={() => setShowRegister(false)} />
+    ) : (
+      <Login onRegister={() => setShowRegister(true)} />
+    );
+  }
 
   return (
     <Shell>
@@ -49,6 +60,7 @@ export default function App() {
         <Route path="/sale" element={<NewSale />} />
         <Route path="/shop" element={<Catalogue />} />
         {user.role === "owner" && <Route path="/reports" element={<Reports />} />}
+        {user.role === "owner" && <Route path="/staff" element={<Staff />} />}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Shell>

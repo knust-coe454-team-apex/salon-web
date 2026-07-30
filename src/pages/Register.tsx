@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { api, setToken } from "../lib/api";
 import { useAuth } from "../lib/auth-context";
 
-export default function Login({ onRegister }: { onRegister: () => void }) {
-  const { signIn } = useAuth();
+export default function Register({ onBack }: { onBack: () => void }) {
+  const { refresh } = useAuth();
+  const [businessName, setBusinessName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -13,24 +16,56 @@ export default function Login({ onRegister }: { onRegister: () => void }) {
     e.preventDefault();
     setError(null);
     setBusy(true);
-    // The free hosting tier sleeps when idle; say so instead of looking frozen.
     const t = setTimeout(() => setSlow(true), 4000);
-    const err = await signIn(email.trim(), password);
+    const r = await api<{ token: string }>("/auth/register", {
+      method: "POST",
+      body: JSON.stringify({
+        businessName: businessName.trim(),
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        password,
+      }),
+    });
     clearTimeout(t);
     setSlow(false);
     setBusy(false);
-    if (err) setError(err);
+    if (!r.ok) {
+      setError(r.error);
+      return;
+    }
+    setToken(r.data.token);
+    await refresh();
   }
+
+  const valid =
+    businessName.trim().length >= 2 &&
+    name.trim().length >= 2 &&
+    email.includes("@") &&
+    password.length >= 8;
 
   return (
     <div className="auth-screen">
       <div className="auth-box">
         <h1 className="wordmark">Salon</h1>
         <p className="muted" style={{ marginTop: 0, marginBottom: 24 }}>
-          Sign in to record sales and see the day's takings.
+          Set up your business. You'll be the owner.
         </p>
 
         <form onSubmit={submit}>
+          <label className="field">
+            <span>Business name</span>
+            <input
+              value={businessName}
+              onChange={(e) => setBusinessName(e.target.value)}
+              placeholder="e.g. Adjoa's Nails & More"
+            />
+          </label>
+
+          <label className="field">
+            <span>Your name</span>
+            <input value={name} onChange={(e) => setName(e.target.value)} />
+          </label>
+
           <label className="field">
             <span>Email</span>
             <input
@@ -38,25 +73,23 @@ export default function Login({ onRegister }: { onRegister: () => void }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="username"
-              required
             />
           </label>
 
           <label className="field">
-            <span>Password</span>
+            <span>Password (at least 8 characters)</span>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-              required
+              autoComplete="new-password"
             />
           </label>
 
           {error && <p className="error">{error}</p>}
 
-          <button type="submit" disabled={busy} style={{ width: "100%", marginTop: 8 }}>
-            {busy ? "Signing in…" : "Sign in"}
+          <button type="submit" disabled={!valid || busy} style={{ width: "100%", marginTop: 8 }}>
+            {busy ? "Creating…" : "Create my business"}
           </button>
 
           {slow && (
@@ -67,8 +100,8 @@ export default function Login({ onRegister }: { onRegister: () => void }) {
         </form>
 
         <p style={{ textAlign: "center", marginTop: 20 }}>
-          <button className="linklike" onClick={onRegister} type="button">
-            New here? Set up your business
+          <button className="linklike" onClick={onBack} type="button">
+            Already set up? Sign in
           </button>
         </p>
       </div>

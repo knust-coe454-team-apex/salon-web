@@ -4,13 +4,20 @@ import { AuthCtx, type User } from "./auth-context";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  // Derive the initial value rather than correcting it inside the effect:
-  // if there's no stored token there is nothing to restore, so we're not loading.
   const [loading, setLoading] = useState(() => !!getToken());
+
+  async function refresh() {
+    if (!getToken()) {
+      setUser(null);
+      return;
+    }
+    const r = await api<{ user: User }>("/auth/me");
+    if (r.ok) setUser(r.data.user);
+    else clearToken();
+  }
 
   useEffect(() => {
     if (!getToken()) return;
-
     let cancelled = false;
     api<{ user: User }>("/auth/me").then((r) => {
       if (cancelled) return;
@@ -18,7 +25,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       else clearToken();
       setLoading(false);
     });
-
     return () => {
       cancelled = true;
     };
@@ -41,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthCtx.Provider value={{ user, loading, signIn, signOut }}>
+    <AuthCtx.Provider value={{ user, loading, signIn, signOut, refresh }}>
       {children}
     </AuthCtx.Provider>
   );
