@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { api, setToken } from "../lib/api";
 import { useAuth } from "../lib/auth-context";
 
@@ -44,12 +45,23 @@ export default function Register({ onBack }: { onBack: () => void }) {
     password.length >= 8;
 
   return (
-    <div className="auth-screen">
-      <div className="auth-box">
-        <h1 className="wordmark">Salon</h1>
-        <p className="muted" style={{ marginTop: 0, marginBottom: 24 }}>
-          Set up your business. You'll be the owner.
-        </p>
+    <div className="auth-layout register-layout">
+      <section className="auth-brand-panel register-panel">
+        <div className="auth-brand"><span className="brand-mark"><img src="/nailflow-mark.svg" alt="" /></span><span>NailFlow</span></div>
+        <div className="auth-pitch">
+          <span className="pill">Start simply</span>
+          <h1>A calmer way to manage your growing salon.</h1>
+          <p>Create your workspace, add your services and products, then start recording sales in minutes.</p>
+        </div>
+        <p className="auth-footer-note">Stock. Sales. Success.</p>
+      </section>
+      <section className="auth-form-panel register-form-panel">
+      <div className="auth-box register-box">
+        <button className="back-button" onClick={onBack} type="button"><ArrowLeft size={18} /> Back to sign in</button>
+        <div className="auth-mobile-brand"><span className="brand-mark"><img src="/nailflow-mark.svg" alt="" /></span><strong>NailFlow</strong></div>
+        <p className="auth-eyebrow">Create your workspace</p>
+        <h2>Set up your business</h2>
+        <p className="muted auth-subtitle">You will be registered as the business owner.</p>
 
         <form onSubmit={submit}>
           <label className="field">
@@ -88,8 +100,8 @@ export default function Register({ onBack }: { onBack: () => void }) {
 
           {error && <p className="error">{error}</p>}
 
-          <button type="submit" disabled={!valid || busy} style={{ width: "100%", marginTop: 8 }}>
-            {busy ? "Creating…" : "Create my business"}
+          <button className="primary-button" type="submit" disabled={!valid || busy}>
+            {busy ? "Creating…" : <><span>Create my business</span><ArrowRight size={18} /></>}
           </button>
 
           {slow && (
@@ -99,12 +111,8 @@ export default function Register({ onBack }: { onBack: () => void }) {
           )}
         </form>
 
-        <p style={{ textAlign: "center", marginTop: 20 }}>
-          <button className="linklike" onClick={onBack} type="button">
-            Already set up? Sign in
-          </button>
-        </p>
       </div>
+      </section>
     </div>
   );
 }

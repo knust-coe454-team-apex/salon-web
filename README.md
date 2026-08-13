@@ -1,3 +1,28 @@
+# NailFlow Web
+
+Professional salon inventory, sales, expenses, reporting, and staff-management frontend.
+
+## Credits & provenance
+
+The NailFlow visual redesign, dark-mode theming, and the offline/PWA layer
+(IndexedDB store, service worker, sync-on-reconnect) were contributed by
+Ahmed Mohammed and integrated into this project on a feature branch,
+reviewed via pull request. The underlying API, data model, and backend
+are unchanged — the redesign targets the same endpoints.
+
+## Run locally
+
+1. Copy `.env.example` to `.env` and set `VITE_API_URL` to the backend URL.
+2. Install dependencies with `npm install`.
+3. Start the app with `npm run dev`.
+
+## Checks
+
+- `npm run build`
+- `npm run lint`
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

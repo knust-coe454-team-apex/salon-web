@@ -113,7 +113,7 @@ export default function NewSale() {
       setError(r.error);
       return;
     }
-    setDone(r.data.total);
+    setDone(r.queued ? total : r.data.total);
     setLines([]);
     // Refresh stock counts so the next sale sees the new numbers
     const p = await api<Product[]>("/products");
@@ -130,7 +130,7 @@ export default function NewSale() {
             {done.toLocaleString("en-GH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </span>
         </div>
-        <p className="muted">Added to today's takings.</p>
+        <p className="muted">Saved successfully. If you are offline, it will sync automatically when your connection returns.</p>
         <button style={{ width: "100%" }} onClick={() => setDone(null)}>
           Record another sale
         </button>

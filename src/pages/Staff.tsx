@@ -25,8 +25,9 @@ export default function Staff() {
 
   useEffect(() => {
     const signal = { cancelled: false };
-    void load(signal);
+    const timer = window.setTimeout(() => void load(signal), 0);
     return () => {
+      window.clearTimeout(timer);
       signal.cancelled = true;
     };
   }, []);

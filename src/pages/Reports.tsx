@@ -17,6 +17,7 @@ type RangeReport = {
   net: number;
   topProducts: { name: string; quantity: number; income: number }[];
   topServices: { name: string; quantity: number; income: number }[];
+  pendingSales?: number;
 };
 
 const iso = (d: Date) =>
@@ -55,9 +56,13 @@ export default function Reports() {
 
   useEffect(() => {
     const signal = { cancelled: false };
-    void load(p[which], signal);
+    const timer = window.setTimeout(() => void load(p[which], signal), 0);
+    const refresh = () => void load(p[which], signal);
+    window.addEventListener("nailflow-data-refresh", refresh);
     return () => {
+      window.clearTimeout(timer);
       signal.cancelled = true;
+      window.removeEventListener("nailflow-data-refresh", refresh);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [which]);
@@ -85,6 +90,11 @@ export default function Reports() {
 
       {data && !loading && (
         <>
+          {!!data.pendingSales && (
+            <div className="alert pending-report">
+              Includes {data.pendingSales} offline sale{data.pendingSales === 1 ? "" : "s"} waiting to sync
+            </div>
+          )}
           {/* Net is the answer to "am I making money", so it leads. */}
           <div className="netbox">
             <span className="split-label">
