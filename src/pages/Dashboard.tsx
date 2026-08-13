@@ -12,6 +12,7 @@ type OwnerDash = {
     total: number;
     paymentMethod: string;
     itemCount: number;
+    pending?: boolean;
   }[];
 };
 
@@ -19,7 +20,7 @@ type StaffDash = {
   role: "staff";
   salesCountToday: number;
   lowStockCount: number;
-  recentActivity: { id: string; date: string; paymentMethod: string; itemCount: number }[];
+  recentActivity: { id: string; date: string; paymentMethod: string; itemCount: number; pending?: boolean }[];
 };
 
 export default function Dashboard() {
@@ -28,10 +29,14 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    api<OwnerDash | StaffDash>("/dashboard").then((r) => {
+    const load = () => api<OwnerDash | StaffDash>("/dashboard").then((r) => {
       if (r.ok) setData(r.data);
       else setError(r.error);
     });
+    void load();
+    const refresh = () => void load();
+    window.addEventListener("nailflow-data-refresh", refresh);
+    return () => window.removeEventListener("nailflow-data-refresh", refresh);
   }, []);
 
   if (error) return <p className="error">{error}</p>;
@@ -108,6 +113,7 @@ export default function Dashboard() {
                 <span className="muted" style={{ fontSize: 14, display: "block" }}>
                   {s.itemCount} item{s.itemCount === 1 ? "" : "s"} · {s.paymentMethod === "cash" ? "Cash" : "MoMo"}
                 </span>
+                {s.pending && <span className="pending-badge">Pending sync</span>}
               </div>
               <span className="muted" style={{ fontSize: 14 }}>{time(s.date)}</span>
             </li>

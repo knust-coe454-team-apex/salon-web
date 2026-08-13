@@ -1,0 +1,12 @@
+{
+  "name": "NailFlow Salon Management",
+  "short_name": "NailFlow",
+  "description": "Offline-ready salon inventory, sales and business management.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f7fb",
+  "theme_color": "#7c3aed",
+  "icons": [
+    { "src": "/nailflow-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,13 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="nailflow-gradient" x1="18" y1="14" x2="111" y2="117" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="0.52" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#DB2777"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="36" fill="url(#nailflow-gradient)"/>
+  <path d="M35 91V39.5C35 34.2533 39.2533 30 44.5 30C48.2135 30 51.5878 32.166 53.132 35.5436L76.5 86.5V46.5" stroke="white" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M88 29L91.574 38.426L101 42L91.574 45.574L88 55L84.426 45.574L75 42L84.426 38.426L88 29Z" fill="#FFD9EE"/>
+  <circle cx="98" cy="72" r="5" fill="#FFD9EE"/>
+</svg>
